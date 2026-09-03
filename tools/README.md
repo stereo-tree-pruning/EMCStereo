@@ -44,17 +44,23 @@ colourmaps and `left | pred | gt | error` panels. It reuses `train.py`'s own
 in its docstring describe the original cluster layout and are kept as
 provenance.
 
-## `figures/` — the paper's qualitative figures
+## `figures/` — the README images and the paper's qualitative figures
 
-These rebuild the figures in `../assets/` from evaluation image dumps produced by
+These rebuild everything in `../assets/` from evaluation image dumps produced by
 `evl.py` / `train_new2.py`. Regenerate the dumps first (`evl.py` writes
 `output/eval/<tag>/disparity/disp_XXXX.png`, prediction on top of ground truth,
 JET over `[0, 192]`) and adjust the input paths at the top of each script.
 
 | Script | Builds |
 |---|---|
+| **`make_readme_assets.py`** | **every image in `../assets/`** — architecture, the VirtualTree figure and the ten-scene gallery, the detail crop, SceneFlow, the real-world comparison, the dataset sample, the training curve and the ablation chart. Its docstring lists the source dump behind each one. |
 | `make_virtualtree_figure.py` | `qual_synth.png` — four VirtualTree scenes: left RGB \| ground truth \| EMCStereo |
 | `make_sceneflow_figure.py` | `qual_sceneflow.png` — the SceneFlow qualitative panel |
 | `make_paper_figures.py` | the real ZED Mini figure, re-colourised from the raw disparity of `infer_real_pair.py` (`--real`) |
 | `check_panel_alignment.py` | proves two image dumps enumerate a split in the same order, by comparing their ground-truth halves pixel for pixel |
 | `make_blur_layers.py` | the blur layers used in the flow-chart figure |
+
+```bash
+python tools/figures/make_readme_assets.py
+python tools/figures/make_readme_assets.py --only curve ablation   # no dumps needed
+```

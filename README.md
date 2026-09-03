@@ -1,43 +1,108 @@
+<div align="center">
+
 # EMCStereo
 
-**Attention-Enhanced Stereo Matching for Thin-Structure Depth Estimation with a Synthetic Tree-Branch Benchmark**
+### Attention-Enhanced Stereo Matching for Thin-Structure Depth Estimation<br>with a Synthetic Tree-Branch Benchmark
 
-Yida Lin, Bing Xue, Mengjie Zhang (Victoria University of Wellington) ·
-Sam Schofield, Richard Green (University of Canterbury)
+Yida Lin · Bing Xue · Mengjie Zhang — *Victoria University of Wellington*<br>
+Sam Schofield · Richard Green — *University of Canterbury*
 
-> 📄 Paper: *(add the link once the paper is online)*
+![Python](https://img.shields.io/badge/Python-3.9%20–%203.12-3776ab?logo=python&logoColor=white)
+![PyTorch](https://img.shields.io/badge/PyTorch-2.x-ee4c2c?logo=pytorch&logoColor=white)
+![Params](https://img.shields.io/badge/Parameters-5.12%20M-2a6fdb)
+![EPE](https://img.shields.io/badge/VirtualTree%20test%20EPE-1.308%20px-0f9d58)
+![License](https://img.shields.io/badge/License-MIT-6b7280)
+
+<img src="assets/qual_virtualtree.png" width="100%" alt="EMCStereo on four VirtualTree validation scenes">
+
+<sub>Four VirtualTree validation scenes: left RGB, ground truth from the UE5 geometry buffer, and the EMCStereo prediction.<br>
+Twigs stay connected and silhouettes stay sharp; the residual speckle sits in sky and background foliage, which the metrics exclude.</sub>
+
+</div>
+
+---
 
 Official code and trained weights for **EMCStereo**, a PSMNet-style cost-volume
 network with three lightweight attention modules injected at the points where
 thin-structure detail is normally lost:
 
-| Letter | Module | Where it is injected |
-|---|---|---|
-| **E** | **EMA** — Efficient Multi-scale Attention | on the deep 128-channel semantic feature |
-| **M** | **MSFblock** — Multi-Scale Fusion block | over the four SPP pyramid branches, replacing concatenation |
-| **C** | **CoordAtt** — Coordinate Attention | on the final 32-channel matching feature |
+| | Module | Where it is injected |
+|:--:|---|---|
+| **E** | **EMA** — Efficient Multi-scale Attention | the deep 128-channel semantic feature |
+| **M** | **MSFblock** — Multi-Scale Fusion block | the four SPP pyramid branches, replacing concatenation |
+| **C** | **CoordAtt** — Coordinate Attention | the final 32-channel matching feature |
 
 Because MSFblock collapses the four pyramid branches into one, the full model is
 **2.0 % smaller** than the same backbone without attention (5,121,272 vs
 5,225,152 parameters) and the three modules cost **1.7 %** of inference time.
 
-This repository ships the model, the training/evaluation pipeline, the
-VirtualTree data loader with the exact train/val/test splits, and the
-**deployed checkpoint** behind every VirtualTree number in the paper.
+<div align="center">
+<img src="assets/architecture.png" width="92%" alt="EMCStereo architecture">
+</div>
+
+---
+
+## Highlights
+
+<table>
+<tr>
+<td width="50%" valign="top">
+
+**Thin structures survive.** A branch three or four pixels wide, with weakly
+textured bark and cluttered foliage behind it, is close to the worst case for
+cost-volume aggregation.
+
+</td>
+<td width="50%" valign="top">
+
+**Honest measurement.** An eight-way ablation *plus* an independent repeat of the
+baseline puts the run-to-run noise floor at 0.009 px, and the paper reads the
+grid against that floor rather than around it.
+
+</td>
+</tr>
+</table>
+
+<div align="center">
+<img src="assets/thin_structure_detail.png" width="100%" alt="Detail crop: branch fork, ground truth and prediction">
+
+<sub>Detail crop of one branch fork — the silhouette, the crossing limb and the twigs behind it.</sub>
+</div>
 
 ---
 
 ## Results
 
-### VirtualTree (552 pairs per split, 1920×1088)
+### VirtualTree (552 pairs per split, 1920 × 1088)
 
 | Split | EPE ↓ (px) | D1-all ↓ (%) | Bad 1.0 ↓ (%) | Bad 3.0 ↓ (%) | RMSE ↓ (px) | δ₁ ↑ (%) |
 |---|---|---|---|---|---|---|
 | Validation (selects the checkpoint) | 1.315 | 5.80 | 15.33 | 7.33 | 4.83 | 96.20 |
 | **Test (held out)** | **1.308** | **5.96** | **15.16** | **7.31** | **4.71** | **96.11** |
 
-Reproduced by `checkpoints/emcstereo_virtualtree_best.pth` — the exact numbers
+Reproduced by `checkpoints/emcstereo_virtualtree_best.pth`; the raw eval files
 are in [`results/`](results/).
+
+<div align="center">
+<img src="assets/training_curve.png" width="86%" alt="Validation EPE against epoch">
+
+<sub>The deployed 300-epoch run. Early stopping keeps epoch 252 — that checkpoint is the one released here.</sub>
+</div>
+
+<details>
+<summary><b>All ten saved validation scenes</b> (click to expand)</summary>
+
+<div align="center">
+<img src="assets/qual_virtualtree_gallery.png" width="100%" alt="Ten VirtualTree validation scenes">
+</div>
+
+The complete visualisation dump written by `evl.py` — the ten scenes it saves,
+nothing selected. Reading in pairs, left to right then down, the third and fifth
+scenes show the failure mode: where a leaf sits right at the lens and fills the
+top of the disparity range (the deep red regions), the prediction breaks into
+speckle. Thin structure at ordinary depths is where the model is strong.
+
+</details>
 
 ### Cross-dataset (trained on each benchmark's public training set)
 
@@ -54,7 +119,18 @@ early-stopping signal, so these are selection-biased upper bounds, not
 leaderboard entries. VirtualTree is the only benchmark whose evaluation split is
 disjoint from checkpoint selection.
 
+<div align="center">
+<img src="assets/qual_sceneflow.png" width="72%" alt="EMCStereo on two held-out SceneFlow scenes">
+
+<sub>Two scenes from the held-out SceneFlow split: ground truth (left) against EMCStereo (right), JET over [0, 192].<br>
+Wire racks, chair legs and aircraft edges survive at close to their ground-truth width.</sub>
+</div>
+
 ### Ablation (8-way grid, matched 100-epoch budget, VirtualTree validation)
+
+<div align="center">
+<img src="assets/ablation_chart.png" width="86%" alt="Ablation of the three modules against the noise floor">
+</div>
 
 | EMA | MSF | Coord | Params (M) | EPE ↓ (px) | D1-all ↓ (%) | Bad 1.0 ↓ (%) | RMSE ↓ (px) |
 |:---:|:---:|:---:|---|---|---|---|---|
@@ -70,15 +146,56 @@ disjoint from checkpoint selection.
 
 An independent repeat of the no-attention baseline puts the run-to-run noise
 floor at **0.009 px EPE**, so at matched budget the attention stack is
-accuracy-neutral. The deployed model's margin is a *budget* effect, not an
-architectural one — see the paper.
+accuracy-neutral; MSFblock and CoordAtt cost 0.03–0.05 px unless EMA is present.
+The deployed model's margin is a **budget** effect, not an architectural one —
+two extra warm-restart epochs alone are worth 0.082 px, more than the 0.056 px
+between the best and worst of the eight variants.
+
+### Real-world transfer
+
+<div align="center">
+<img src="assets/qual_real.png" width="100%" alt="Real ZED Mini pair: EMCStereo against DEFOM-Stereo">
+</div>
+
+A physical ZED Mini capture. Trained **only on synthetic data**, EMCStereo
+recovers the trunk, the branches and their depth order; the cluttered indoor
+background is far outside its training domain. Our map is colour-coded over
+0–50 px and the reference uses its own normalization, so only structure is
+comparable.
+
+---
+
+## The VirtualTree benchmark
+
+<div align="center">
+<img src="assets/virtualtree_sample.png" width="100%" alt="One VirtualTree sample: left, right and ground-truth disparity">
+
+<sub>One raw test-split sample. The EXR depth buffer inverts to exact disparity, including on twigs a few pixels wide.</sub>
+</div>
+
+**5,520 stereo pairs** rendered in Unreal Engine 5 from 115 distinct scenes with
+a simulated ZED Mini rig — baseline `B = 6.3 cm`, focal length `f = 960 px`
+(HFoV 90° at 1920 px width). The engine's EXR depth buffer gives dense, exact
+ground truth for thin-branch geometry, which neither LiDAR nor manual labelling
+can supply for real branches.
+
+The split files in [`data/`](data/) hold 4,416 / 552 / 552 pairs
+(train / val / test), one pair per line, three space-separated paths relative to
+`Virtual_branches_data/`:
+
+```
+left image/left_9.png    left depth/depth_9.exr    right image/right_9.png
+```
+
+Disparity is recovered as `d = f · B / Z`, which `data/virtualtree.py` applies to
+every EXR it reads.
 
 ---
 
 ## Installation
 
 ```bash
-git clone https://github.com/<your-account>/EMCStereo.git
+git clone https://github.com/stereo-tree-pruning/EMCStereo.git
 cd EMCStereo
 pip install -r requirements.txt
 ```
@@ -87,10 +204,27 @@ Tested with Python 3.9–3.12 and PyTorch 2.x (CUDA or CPU). Install the PyTorch
 build that matches your CUDA version from [pytorch.org](https://pytorch.org)
 first if you need GPU support.
 
-**OpenEXR note.** VirtualTree ground truth is stored as UE5 `.exr` depth. The
-loader sets `OPENCV_IO_ENABLE_OPENEXR=1` and uses OpenCV when its build ships the
-OpenEXR codec, otherwise it falls back to the `OpenEXR` + `Imath` packages. If
-you hit EXR read errors, `pip install OpenEXR Imath`.
+> **OpenEXR note.** VirtualTree ground truth is stored as UE5 `.exr` depth. The
+> loader sets `OPENCV_IO_ENABLE_OPENEXR=1` and uses OpenCV when its build ships
+> the OpenEXR codec, otherwise it falls back to the `OpenEXR` + `Imath`
+> packages. If you hit EXR read errors, `pip install OpenEXR Imath`.
+
+### Dataset layout
+
+Point `EMCSTEREO_DATA_ROOT` (VirtualTree) and `EMCSTEREO_OPEN_ROOT` (the public
+benchmarks) at your data, or pass `--data-root` on the command line. The default
+is `<repo>/datasets/`:
+
+```
+datasets/
+  Virtual_branches_data/     VirtualTree — splits in data/virtualtree_{train,val,test}.txt
+  KITTI2012/  KITTI2015/  ETH3/  Middlebury/  Scene Flow/
+```
+
+```bash
+export EMCSTEREO_DATA_ROOT=/path/to/Virtual_branches_data
+export EMCSTEREO_OPEN_ROOT=/path/to/open_datasets
+```
 
 ---
 
@@ -125,41 +259,6 @@ out = model({'left': left, 'right': right})   # both [B, 3, H, W], H and W divis
 disp = out['disp_pred']                       # [B, H, W] float disparity in pixels
 ```
 
-Convert disparity to metric depth with the ZED Mini rig used to render
-VirtualTree — baseline `B = 6.3 cm`, focal length `f = 960 px` (HFoV 90° at
-1920 px width): `Z_cm = f · B / d`. This is exactly the relation
-`data/virtualtree.py` inverts to turn the UE5 EXR depth buffer into ground-truth
-disparity.
-
----
-
-## Dataset layout
-
-Point `EMCSTEREO_DATA_ROOT` (VirtualTree) and `EMCSTEREO_OPEN_ROOT` (the public
-benchmarks) at your data, or pass `--data-root` on the command line. The default
-is `<repo>/datasets/`:
-
-```
-datasets/
-  Virtual_branches_data/     VirtualTree — splits in data/virtualtree_{train,val,test}.txt
-  KITTI2012/  KITTI2015/  ETH3/  Middlebury/  Scene Flow/
-```
-
-VirtualTree holds **5,520 stereo pairs** rendered in Unreal Engine 5 from 115
-distinct scenes with a simulated ZED Mini rig; the EXR depth buffer gives dense,
-exact disparity for thin-branch geometry. The split files in [`data/`](data/)
-hold 4,416 / 552 / 552 pairs (train / val / test), one pair per line, three
-space-separated paths relative to `Virtual_branches_data/`:
-
-```
-left image/left_9.png    left depth/depth_9.exr    right image/right_9.png
-```
-
-```bash
-export EMCSTEREO_DATA_ROOT=/path/to/Virtual_branches_data
-export EMCSTEREO_OPEN_ROOT=/path/to/open_datasets
-```
-
 ---
 
 ## Evaluation
@@ -172,7 +271,8 @@ python evl.py --ckpt checkpoints/emcstereo_virtualtree_best.pth --split val
 Writes `output/eval/<tag>/eval_results.txt` plus the first N disparity
 visualisations (`--save-count`, default 10) as
 `output/eval/<tag>/disparity/disp_XXXX.png` — **prediction on top, ground truth
-underneath**, JET over `[0, 192]`.
+underneath**, JET over `[0, 192]`. Those are exactly the images in the gallery
+above.
 
 Evaluation protocol, identical everywhere in the paper: fp32, batch 1,
 `DivisiblePad(32)` removed *before* scoring, valid mask `0 < gt < 192`, metrics
@@ -271,7 +371,7 @@ count_ablation_params.py    exact parameter count of all eight ablation variants
 
 checkpoints/                the deployed VirtualTree checkpoint (see its README)
 results/                    the eval files and reference metrics behind the paper
-assets/                     qualitative figures from the paper
+assets/                     every figure on this page (see assets/README.md)
 tools/                      reproducibility scripts (see tools/README.md)
 ```
 
@@ -305,6 +405,10 @@ attention modules:
   Design", CVPR 2021
 - **MSFblock** — Xie *et al.*, "SHISRCNet: Super-resolution and Classification
   Network for Low-resolution Breast Cancer Histopathology Image", MICCAI 2023
+
+The real-world comparison uses
+[DEFOM-Stereo](https://github.com/Insta360-Research-Team/DEFOM-Stereo) as the
+reference method.
 
 ## License
 
