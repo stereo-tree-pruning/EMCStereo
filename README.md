@@ -380,14 +380,7 @@ tools/                      reproducibility scripts (see tools/README.md)
 ## Citation
 
 ```bibtex
-@inproceedings{lin2027emcstereo,
-  title     = {{EMCStereo}: Attention-Enhanced Stereo Matching for Thin-Structure
-               Depth Estimation with a Synthetic Tree-Branch Benchmark},
-  author    = {Lin, Yida and Xue, Bing and Zhang, Mengjie and
-               Schofield, Sam and Green, Richard},
-  booktitle = {Proc. IEEE Int. Conf. Robotics and Automation (ICRA)},
-  year      = {2027}
-}
+coming soon
 ```
 
 ## Acknowledgements
