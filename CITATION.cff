@@ -1,0 +1,46 @@
+cff-version: 1.2.0
+message: "If you use EMCStereo or the VirtualTree splits, please cite the paper below."
+title: "EMCStereo: Attention-Enhanced Stereo Matching for Thin-Structure Depth Estimation with a Synthetic Tree-Branch Benchmark"
+type: software
+authors:
+  - family-names: Lin
+    given-names: Yida
+    affiliation: "Centre for Data Science and Artificial Intelligence, Victoria University of Wellington"
+    email: linyida@myvuw.ac.nz
+  - family-names: Xue
+    given-names: Bing
+    affiliation: "Centre for Data Science and Artificial Intelligence, Victoria University of Wellington"
+  - family-names: Zhang
+    given-names: Mengjie
+    affiliation: "Centre for Data Science and Artificial Intelligence, Victoria University of Wellington"
+  - family-names: Schofield
+    given-names: Sam
+    affiliation: "Department of Computer Science and Software Engineering, University of Canterbury"
+  - family-names: Green
+    given-names: Richard
+    affiliation: "Department of Computer Science and Software Engineering, University of Canterbury"
+license: MIT
+keywords:
+  - stereo matching
+  - disparity estimation
+  - attention mechanism
+  - synthetic dataset
+  - thin-structure depth
+  - tree-branch perception
+  - cross-domain generalization
+preferred-citation:
+  type: conference-paper
+  title: "EMCStereo: Attention-Enhanced Stereo Matching for Thin-Structure Depth Estimation with a Synthetic Tree-Branch Benchmark"
+  authors:
+    - family-names: Lin
+      given-names: Yida
+    - family-names: Xue
+      given-names: Bing
+    - family-names: Zhang
+      given-names: Mengjie
+    - family-names: Schofield
+      given-names: Sam
+    - family-names: Green
+      given-names: Richard
+  collection-title: "Proceedings of the IEEE International Conference on Robotics and Automation (ICRA)"
+  year: 2027

@@ -1,0 +1,40 @@
+{
+  "mode": "all",
+  "skip_train": false,
+  "skip_eval": false,
+  "tag": "default",
+  "data_root": "/vol/grid-solar/sgeusers/bennylin/Open_dataset/Virtual_branches_data",
+  "train_split": "/vol/grid-solar/sgeusers/bennylin/EMCStereo/data/virtualtree_train.txt",
+  "val_split": "/vol/grid-solar/sgeusers/bennylin/EMCStereo/data/virtualtree_val.txt",
+  "output_dir": "/vol/grid-solar/sgeusers/bennylin/EMCStereo/output",
+  "max_disp": 192,
+  "crop_size": [
+    256,
+    512
+  ],
+  "epochs": 300,
+  "early_stop_patience": 50,
+  "batch_size": 4,
+  "workers": 8,
+  "optimizer": "adamw",
+  "lr": 0.0005,
+  "weight_decay": 0.0001,
+  "warmup_iters": 500,
+  "scheduler": "cosine",
+  "multistep_milestones": [
+    15,
+    20
+  ],
+  "multistep_gamma": 0.1,
+  "amp": true,
+  "grad_clip": 1.0,
+  "disp_pred_clamp_factor": 2.0,
+  "loss_cap": 1000.0,
+  "color_aug": true,
+  "log_interval": 10,
+  "eval_vis_count": 10,
+  "seed": 0,
+  "pretrained": "/vol/grid-solar/sgeusers/bennylin/EMCStereo/pretrain/virtual_tree_best.pth",
+  "ckpt": null,
+  "gpus": null
+}

@@ -1,0 +1,17 @@
+# EMCStereo runtime dependencies.
+#
+# Install the PyTorch build matching your CUDA version from https://pytorch.org
+# first if you want GPU support; the pins below are the minimum versions the
+# code was developed and tested against (Python 3.9-3.12, PyTorch 2.x).
+
+torch>=2.0
+torchvision>=0.15
+numpy>=1.21
+opencv-python>=4.5
+Pillow>=9.0
+tensorboard>=2.10
+
+# Only needed if your OpenCV build ships without the OpenEXR codec; the
+# VirtualTree loader falls back to these to read the UE5 .exr depth buffers.
+# OpenEXR
+# Imath

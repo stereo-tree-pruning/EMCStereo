@@ -1,0 +1,18 @@
+EMCStereo [test] eval over 552 samples
+
+epe: 1.307740    # End Point Error (Mean Absolute Error, lower is better)
+d1_all: 0.059573    # D1-all: % pixels with error >3px and >5% (lower is better)
+thres_05: 0.239860    # Bad 0.5: % pixels with error >0.5px (lower is better)
+thres_1: 0.151631    # Bad 1.0: % pixels with error >1px (lower is better)
+thres_2: 0.096290    # Bad 2.0: % pixels with error >2px (lower is better)
+thres_3: 0.073064    # Bad 3.0: % pixels with error >3px (lower is better)
+thres_4: 0.059402    # Bad 4.0: % pixels with error >4px (lower is better)
+thres_5: 0.050198    # Bad 5.0: % pixels with error >5px (lower is better)
+rmse: 4.707669    # Root Mean Square Error (lower is better)
+absrel: 0.056088    # Absolute Relative Error |pred-gt|/gt (lower is better)
+mae: 1.307740    # Mean Absolute Error (lower is better)
+sqrel: 1.226703    # Squared Relative Error (pred-gt)^2/gt (lower is better)
+rmse_log: 0.152318    # RMSE of log disparity (lower is better)
+delta1: 0.961051    # Accuracy δ<1.25 (higher is better)
+delta2: 0.982277    # Accuracy δ<1.25^2 (higher is better)
+delta3: 0.988954    # Accuracy δ<1.25^3 (higher is better)

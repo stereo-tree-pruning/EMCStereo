@@ -1,0 +1,115 @@
+{
+    "_comment": "Reference metrics copied from the original eval_results.txt / training logs. val_all.py re-evaluates every checkpoint and compares against these. Values are per-image averages (fp32, no TTA).",
+    "virtualtree/emcstereo_headline:val": {
+        "epe": 1.314849,
+        "d1_all": 0.058010,
+        "thres_1": 0.153278,
+        "thres_3": 0.073348,
+        "rmse": 4.825643,
+        "absrel": 0.056242,
+        "delta1": 0.962039
+    },
+    "virtualtree/emcstereo_headline:test": {
+        "epe": 1.307740,
+        "d1_all": 0.059573,
+        "thres_1": 0.151631,
+        "thres_3": 0.073064,
+        "rmse": 4.707669,
+        "absrel": 0.056088,
+        "delta1": 0.961051
+    },
+    "virtualtree/emcstereo_scratch_snapshot:val": {
+        "epe": 1.6736,
+        "d1_all": 0.0744,
+        "thres_1": 0.1884
+    },
+    "virtualtree/emcstereo_scratch_2ep_restart:val": {
+        "epe": 1.643663
+    },
+    "virtualtree/emcstereo_scratch_2ep_restart:test": {
+        "epe": 1.605816
+    },
+    "ablation/none:val": {
+        "epe": 1.748995,
+        "d1_all": 0.080071,
+        "thres_1": 0.197315,
+        "rmse": 5.346124
+    },
+    "ablation/none_repeat:val": {
+        "epe": 1.740423,
+        "d1_all": 0.079761,
+        "thres_1": 0.198397,
+        "rmse": 5.287541
+    },
+    "ablation/ema:val": {
+        "epe": 1.739770
+    },
+    "ablation/msf:val": {
+        "epe": 1.776870
+    },
+    "ablation/coord:val": {
+        "epe": 1.785270
+    },
+    "ablation/ema_msf:val": {
+        "epe": 1.737644
+    },
+    "ablation/ema_coord:val": {
+        "epe": 1.735543
+    },
+    "ablation/msf_coord:val": {
+        "epe": 1.791517
+    },
+    "ablation/ema_msf_coord:val": {
+        "epe": 1.752222
+    },
+    "cross_dataset/KITTI2012:val": {
+        "epe": 0.803928,
+        "d1_all": 0.032524,
+        "thres_1": 0.124935,
+        "thres_3": 0.038047,
+        "rmse": 2.793922,
+        "absrel": 0.021614,
+        "delta1": 0.987370
+    },
+    "cross_dataset/KITTI2015:val": {
+        "epe": 0.729808,
+        "d1_all": 0.021955,
+        "thres_1": 0.148425,
+        "rmse": 1.937053,
+        "absrel": 0.027434,
+        "delta1": 0.986313
+    },
+    "cross_dataset/Middlebury:val": {
+        "epe": 3.191385,
+        "d1_all": 0.126505,
+        "thres_1": 0.446938,
+        "rmse": 9.433983,
+        "absrel": 0.049559,
+        "delta1": 0.961687
+    },
+    "cross_dataset/ETH3D:val": {
+        "epe": 0.616272,
+        "d1_all": 0.038622,
+        "thres_1": 0.124472,
+        "rmse": 1.500707,
+        "absrel": 0.077783,
+        "delta1": 0.926037
+    },
+    "sceneflow/v4_best:val": {
+        "epe": 1.0050,
+        "d1_all": 0.0359,
+        "thres_1": 0.0891,
+        "thres_3": 0.0411,
+        "rmse": 5.1320,
+        "absrel": 0.0975,
+        "delta1": 0.9767
+    },
+    "sceneflow/baseline_ep31:val": {
+        "epe": 1.199764,
+        "d1_all": 0.042055,
+        "thres_1": 0.140665,
+        "rmse": 5.393754,
+        "absrel": 0.087084,
+        "delta1": 0.969911
+    }
+}

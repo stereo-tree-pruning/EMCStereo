@@ -1,0 +1,10 @@
+# Keep checkpoints and figures byte-exact; never apply EOL normalisation.
+*.pth  binary
+*.pt   binary
+*.png  binary
+*.npy  binary
+
+# Split lists are plain text; keep LF so hashes match across platforms.
+*.txt  text eol=lf
+*.py   text eol=lf
+*.md   text eol=lf

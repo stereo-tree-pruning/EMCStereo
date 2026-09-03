@@ -1,0 +1,34 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+
+# Training / evaluation output
+output/
+val/
+runs/
+blocks_test/
+Others_output*/
+new_results/
+final_results/
+*.log
+nohup.out
+events.out.tfevents.*
+
+# Datasets (point EMCSTEREO_DATA_ROOT / EMCSTEREO_OPEN_ROOT at them instead)
+datasets/
+
+# Checkpoints — the released one is committed explicitly, everything else is not
+*.pth
+*.pt
+*.ckpt
+!checkpoints/emcstereo_virtualtree_best.pth
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
