@@ -4,9 +4,6 @@
 
 ### Attention-Enhanced Stereo Matching for Thin-Structure Depth Estimation<br>with a Synthetic Tree-Branch Benchmark
 
-Yida Lin · Bing Xue · Mengjie Zhang — *Victoria University of Wellington*<br>
-Sam Schofield · Richard Green — *University of Canterbury*
-
 ![Python](https://img.shields.io/badge/Python-3.9%20–%203.12-3776ab?logo=python&logoColor=white)
 ![PyTorch](https://img.shields.io/badge/PyTorch-2.x-ee4c2c?logo=pytorch&logoColor=white)
 ![Params](https://img.shields.io/badge/Parameters-5.12%20M-2a6fdb)
